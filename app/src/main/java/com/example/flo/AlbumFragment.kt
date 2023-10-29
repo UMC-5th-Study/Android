@@ -21,11 +21,17 @@ class AlbumFragment : Fragment() {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
 
         binding.albumBackIv.setOnClickListener {
-            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_frm, HomeFragment()).commitAllowingStateLoss()
+            (context as MainActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, HomeFragment())
+                .commitAllowingStateLoss()
         }
-        binding.songLalacLayout.setOnClickListener {
+        /*binding.songLalacLayout.setOnClickListener {
             Toast.makeText(activity,"LILAC", Toast.LENGTH_SHORT).show()
-        }
+        }*/
+
+        val albumAdapter = AlbumVPAdapter(this)
+        binding.albumContentVp.adapter = albumAdapter
+
         return binding.root
     }
 }
