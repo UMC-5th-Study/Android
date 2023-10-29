@@ -141,44 +141,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!--<androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/song_lalac_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/album_content_vp"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/song_list_order_01_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="01"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:id="@+id/song_list_title_01_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="라일락"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="15dp"
-            app:layout_constraintTop_toTopOf="@id/song_list_order_01_tv"
-            app:layout_constraintStart_toEndOf="@id/song_list_order_01_tv"/>
-        <TextView
-            android:id="@+id/song_list_singer_01_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아이유(IU)"
-            android:textSize="10dp"
-            app:layout_constraintTop_toBottomOf="@id/song_list_title_01_tv"
-            app:layout_constraintStart_toStartOf="@id/song_list_title_01_tv"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
