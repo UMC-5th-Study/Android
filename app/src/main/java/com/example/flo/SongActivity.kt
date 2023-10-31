@@ -1,6 +1,7 @@
 package com.example.flo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySongBinding
@@ -9,6 +10,7 @@ class SongActivity : AppCompatActivity() {
 
     lateinit var binding : ActivitySongBinding
     lateinit var song : Song
+    lateinit var timer : Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class SongActivity : AppCompatActivity() {
                 intent.getBooleanExtra("isPlaying", false)
             )
         }
+        startTimer()
     }
     private fun setPlayer(song: Song){
         binding.songMusicTitleTv.text = intent.getStringExtra("title")
@@ -53,6 +56,9 @@ class SongActivity : AppCompatActivity() {
     }
 
     fun setPlayerStatus(isPlaying : Boolean){
+        song.isPlaying = isPlaying
+        timer.isPlaying = isPlaying
+
         if(isPlaying){
             binding.songMiniplayerIv.visibility = View.VISIBLE
             binding.songPauseIv.visibility = View.GONE
@@ -60,6 +66,52 @@ class SongActivity : AppCompatActivity() {
         else{
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+        }
+    }
+
+    private fun startTimer(){
+        timer = Timer(song.playTime,song.isPlaying)
+        timer.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.interrupt()
+    }
+
+    inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread(){
+
+        private var second : Int = 0
+        private var mils : Float = 0f
+
+        override fun run() {
+            super.run()
+            try{
+                while(true){
+
+                    if(second >= playTime){
+                        break
+                    }
+
+                    if(isPlaying){
+                        sleep(50)
+                        mils += 50
+                        runOnUiThread {
+                            binding.songProgressSb.progress = ((mils/playTime)*100).toInt()
+                        }
+                        if(mils % 1000 == 0f){
+                            runOnUiThread {
+                                binding.songStartTimeTv.text = String.format("%02d:%02d", second/60, second%60)
+                            }
+                            second++
+                        }
+                    }
+
+                }
+            }catch(e: InterruptedException){
+                Log.d("Song", "쓰레드가 죽었습니다. ${e.message}")
+            }
+
         }
     }
 }
