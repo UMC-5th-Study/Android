@@ -85,6 +85,13 @@ class SongActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer.interrupt()
+        mediaPlayer?.release() //미디어 플레이어가 갖고 있던 리소스 해제
+        mediaPlayer = null //미디어 플레이어 해제
+    }
+
+    override fun onPause() {
+        super.onPause()
+        setPlayerStatus(false)
     }
 
     inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread(){
