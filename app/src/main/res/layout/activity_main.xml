@@ -94,6 +94,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <SeekBar
+        android:id="@+id/main_play_progress_sb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
+        android:progressBackgroundTint="@color/gray_color"
+        android:progressTint="@color/select_color"
+        android:thumb="@color/transparent"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:max="100000"
+        app:layout_constraintBottom_toTopOf="@id/main_player_cl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bnv"

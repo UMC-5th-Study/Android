@@ -99,7 +99,7 @@ class SongActivity : AppCompatActivity() {
         //sharedPreferneces 데이터 조작 시, 에디터 생성해야 함!
         val editor = sharedPreferences.edit()
         val songJson = gson.toJson(song)
-        editor.putString("song", songJson)
+        editor.putString("songData", songJson)
 
         editor.apply()
     }
