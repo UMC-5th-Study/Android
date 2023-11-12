@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -116,7 +117,7 @@
             app:layout_constraintStart_toEndOf="@id/home_panel_album_img1_iv"
             app:layout_constraintTop_toBottomOf="@id/home_panel_album_title1_tv"/>
 
-         //additional
+
         <ImageView
             android:id="@+id/home_panel_album_img2_iv"
             android:layout_width="40dp"
@@ -359,6 +360,9 @@
             android:layout_width="match_parent"
             android:layout_height="210dp"
             android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_album"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/home_today_music_total_tv"/>
 
         <androidx.viewpager2.widget.ViewPager2
