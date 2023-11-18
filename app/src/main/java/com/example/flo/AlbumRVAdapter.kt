@@ -8,7 +8,7 @@ import com.example.flo.databinding.ItemAlbumBinding
 class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Adapter<AlbumRVAdapter.ViewHolder>() {
 
     interface MyItemClickListner{
-        fun onItemClick()
+        fun onItemClick(album: Album)
     }
 
     //외부에서 전달받은 Listner 객체를 어댑터에서 사용할 수 있도록 해야한다
@@ -29,7 +29,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         //position = RecyclerView에서의 인덱스 아이디
         holder.bind(albumList[position])
         holder.itemView.setOnClickListener{
-            mItemClickListner.onItemClick()
+            mItemClickListner.onItemClick(albumList[position])
         }
     }
 
