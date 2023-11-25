@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySongBinding
 import com.google.gson.Gson
@@ -26,11 +27,15 @@ class SongActivity : AppCompatActivity() {
 
         initPlayList()
         initSong()
+        initClickListner()
 
+    }
+
+    private fun initClickListner(){
         binding.songDownIb.setOnClickListener {
             finish()
         }
-        
+
         binding.songMiniplayerIv.setOnClickListener {
             setPlayerStatus(true)
         }
@@ -38,6 +43,36 @@ class SongActivity : AppCompatActivity() {
             setPlayerStatus(false)
         }
 
+        binding.songNextIv.setOnClickListener {
+            moveSong(+1)
+        }
+
+        binding.songPreviousIv.setOnClickListener {
+            moveSong(-1)
+        }
+
+    }
+
+    private fun moveSong(direct: Int){
+        if (nowPos + direct < 0){
+            Toast.makeText(this,"first song",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (nowPos + direct >= songs.size){
+            Toast.makeText(this,"last song",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        nowPos += direct
+
+        //기존에 실행하던 타이머와 미디어플레이어 해제
+        timer.interrupt()
+        startTimer()
+        mediaPlayer?.release()
+        mediaPlayer = null
+
+        setPlayer(songs[nowPos])
     }
 
     private fun initPlayList(){
