@@ -12,7 +12,7 @@ import java.util.ArrayList
 class SavedSongFragment : Fragment() {
 
     lateinit var binding: FragmentLockerSavedsongBinding
-    private var songDatas = ArrayList<Song>()
+    lateinit var songDB: SongDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,18 +21,23 @@ class SavedSongFragment : Fragment() {
     ): View? {
         binding = FragmentLockerSavedsongBinding.inflate(inflater, container, false)
 
-        songDatas.apply{
-            add(Song("Butter", "방탄소년단 (BTS)", 0, 60, false, "music_butter", R.drawable.img_album_exp))
-            add(Song("라일락", "아이유", 0, 60, false, "music_lilac", R.drawable.img_album_exp2))
-            add(Song("Weekend", "태연 (Tae Yeon)", 0, 60, false, "music_weekend", R.drawable.img_album_exp6))
-        }
-
-        val savedSongRVAdapter = SavedSongRVAdapter(songDatas)
-        binding.lockerSavedSongRecyclerView.adapter = savedSongRVAdapter
-        binding.lockerSavedSongRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-
+        songDB = SongDatabase.getInstance(requireContext())!!
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initRecyclerview()
+    }
+
+    private fun initRecyclerview(){
+        binding.lockerSavedSongRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        val songRVAdapter = SavedSongRVAdapter()
+
+
+        binding.lockerSavedSongRecyclerView.adapter = songRVAdapter
+
     }
 }

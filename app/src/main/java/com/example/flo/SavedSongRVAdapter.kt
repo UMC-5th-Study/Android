@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flo.databinding.ItemSongBinding
 
-class SavedSongRVAdapter(private val songList: ArrayList<Song>) : RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>(){
+class SavedSongRVAdapter() : RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>(){
+
+    private val songs = ArrayList<Song>()
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
@@ -17,10 +19,10 @@ class SavedSongRVAdapter(private val songList: ArrayList<Song>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: SavedSongRVAdapter.ViewHolder, position: Int) {
-        holder.bind(songList[position])
+        holder.bind(songs[position])
     }
 
-    override fun getItemCount(): Int = songList.size
+    override fun getItemCount(): Int = songs.size
 
     inner class ViewHolder(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(song: Song){
