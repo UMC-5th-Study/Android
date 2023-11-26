@@ -51,6 +51,9 @@ class SongActivity : AppCompatActivity() {
             moveSong(-1)
         }
 
+        binding.songLikeIv.setOnClickListener {
+            setLike(songs[nowPos].isLike)
+        }
     }
 
     private fun moveSong(direct: Int){
@@ -73,6 +76,18 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer = null
 
         setPlayer(songs[nowPos])
+    }
+
+    private fun setLike(isLike: Boolean){
+        //DB의 값을 업데이트한 것이 아님!
+        songs[nowPos].isLike = !isLike
+        songDB.songDao().updateIsLikeById(!isLike, songs[nowPos].id)
+
+        if (!isLike){
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+        }else{
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
+        }
     }
 
     private fun initPlayList(){
@@ -107,8 +122,16 @@ class SongActivity : AppCompatActivity() {
         binding.songEndTimeTv.text = String.format("%02d:%02d", song.playTime/60, song.playTime%60)
         binding.songAlbumIv.setImageResource(song.coverImg!!)
         binding.songProgressSb.progress = (song.second*1000/song.playTime)
+
         val music = resources.getIdentifier(song.music, "raw", this.packageName)
         mediaPlayer = MediaPlayer.create(this, music)
+
+        if (song.isLike){
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+        }else{
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
+        }
+
         setPlayerStatus(song.isPlaying)
     }
 
