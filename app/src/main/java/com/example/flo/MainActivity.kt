@@ -113,14 +113,14 @@ class MainActivity : AppCompatActivity() {
         songDB.songDao().insert(
             Song(
                 "Lilac", "아이유 (IU)", 0, 200, false,
-                "music_lilac", R.drawable.img_album_exp2, false,
+                "music_lilac", R.drawable.img_album_exp2, false, 1
             )
         )
 
         songDB.songDao().insert(
             Song(
                 "Flu", "아이유 (IU)", 0, 200, false,
-                "music_flu", R.drawable.img_album_exp2, false,
+                "music_flu", R.drawable.img_album_exp2, false, 1
             )
         )
 
@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
                 "music_butter",
                 R.drawable.img_album_exp,
                 false,
+                2
             )
         )
 
@@ -147,6 +148,7 @@ class MainActivity : AppCompatActivity() {
                 "music_next",
                 R.drawable.img_album_exp3,
                 false,
+                3
             )
         )
 
@@ -161,6 +163,7 @@ class MainActivity : AppCompatActivity() {
                 "music_lilac",
                 R.drawable.img_album_exp4,
                 false,
+                4
             )
         )
 
@@ -175,6 +178,7 @@ class MainActivity : AppCompatActivity() {
                 "music_bboom",
                 R.drawable.img_album_exp5,
                 false,
+                5
             )
         )
 
@@ -191,35 +195,35 @@ class MainActivity : AppCompatActivity() {
 
         songDB.albumDao().insert(
             Album(
-                0,
+                1,
                 "IU 5th Album 'LILAC'", "아이유 (IU)", R.drawable.img_album_exp2
             )
         )
 
         songDB.albumDao().insert(
             Album(
-                1,
+                2,
                 "Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp
             )
         )
 
         songDB.albumDao().insert(
             Album(
-                2,
+                3,
                 "iScreaM Vol.10 : Next Level Remixes", "에스파 (AESPA)", R.drawable.img_album_exp3
             )
         )
 
         songDB.albumDao().insert(
             Album(
-                3,
+                4,
                 "MAP OF THE SOUL : PERSONA", "방탄소년단 (BTS)", R.drawable.img_album_exp4
             )
         )
 
         songDB.albumDao().insert(
             Album(
-                4,
+                5,
                 "GREAT!", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5
             )
         )
