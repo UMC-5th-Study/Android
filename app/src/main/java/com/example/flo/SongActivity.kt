@@ -169,11 +169,13 @@ class SongActivity : AppCompatActivity() {
         super.onPause()
         setPlayerStatus(false)
         songs[nowPos].second = ((binding.songProgressSb.progress * songs[nowPos].playTime)/100)/1000
+        songs[nowPos].isPlaying = false
 
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         //sharedPreferneces 데이터 조작 시, 에디터 생성해야 함!
         val editor = sharedPreferences.edit()
         editor.putInt("songId", songs[nowPos].id)
+        editor.putInt("second", songs[nowPos].second)
 
         editor.apply()
     }

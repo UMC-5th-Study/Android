@@ -11,17 +11,22 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    private var song: Song = Song()
-    private var gson: Gson = Gson()
+    val songs = arrayListOf<Song>()
+    lateinit var songDB: SongDatabase
+    var nowPos = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        songDB = SongDatabase.getInstance(this)!!
+        songs.addAll(songDB.songDao().getSongs())
+
         //val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
         binding.mainPlayerCl.setOnClickListener{
             val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
-            editor.putInt("songId", song.id)
+            editor.putInt("songId", songs[nowPos].id)
             editor.apply()
 
             val intent = Intent(this, SongActivity::class.java)
@@ -31,7 +36,26 @@ class MainActivity : AppCompatActivity() {
         inputDummyAlbums()
         initBottomNavigation()
 
-        Log.d("Song",song.title+song.singer)
+        Log.d("Song",songs[nowPos].title+songs[nowPos].singer)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val songId = sharedPreferences.getInt("songId", 0)
+
+        nowPos = getPlayingSongPosition(songId)
+        setMiniPlayer(songs[nowPos])
+    }
+
+    private fun getPlayingSongPosition(songId: Int): Int{
+        for (i in 0 until songs.size){
+            if (songs[i].id == songId){
+                return i
+            }
+        }
+        return 0
     }
 
     private fun initBottomNavigation(){
@@ -76,7 +100,10 @@ class MainActivity : AppCompatActivity() {
     private fun setMiniPlayer(song: Song){
         binding.mainMiniplayerTitleTv.text = song.title
         binding.mainMiniplayerSingerTv.text = song.singer
-        binding.mainPlayProgressSb.progress = (song.second*100000)/song.playTime
+        //binding.mainPlayProgressSb.progress = (song.second*100000)/song.playTime
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val second = sharedPreferences.getInt("second", 0)
+        binding.mainPlayProgressSb.progress = (second * 100000 / song.playTime)
     }
 
     override fun onStart() {
@@ -94,14 +121,14 @@ class MainActivity : AppCompatActivity() {
 
         val songDB = SongDatabase.getInstance(this)!!
 
-        song = if (songId == 0){
+        songs[nowPos] = if (songId == 0){
             songDB.songDao().getSongs(1) //id가 0이면 저장된 song 데이터가 없었던 것이므로 첫번째 데이터 실행
         }else{
             songDB.songDao().getSongs(songId)
         }
 
-        Log.d("song ID", song.id.toString())
-        setMiniPlayer(song)
+        Log.d("song ID", songs[nowPos].id.toString())
+        setMiniPlayer(songs[nowPos])
     }
 
     private fun inputDummySongs(){
