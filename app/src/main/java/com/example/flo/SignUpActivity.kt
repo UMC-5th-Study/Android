@@ -8,9 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySignupBinding
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity(), SignUpView {
     lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,27 +64,19 @@ class SignUpActivity : AppCompatActivity() {
             return
         }
 
-        //네트워크를 통한 회원가입
-        val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
-        authService.signUp(getUser()).enqueue(object: retrofit2.Callback<AuthResponse> {
-            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                Log.d("SIGNUP/SUCCESS", response.toString())
-                //서버 개발자가 보낸 응답값을 파싱하기 위해서는 response 안에서 body를 가져와야한다!
-                val resp: AuthResponse = response.body()!!
-                when(resp.code){
-                    1000 -> finish()
-                    2016, 2018 -> {
-                        binding.signUpEmailErrorTv.visibility = View.VISIBLE
-                        binding.signUpEmailErrorTv.text = resp.message
-                    }
-                }
-            }
 
-            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                Log.d("SIGNUP/FAILURE", t.message.toString())
-            }
+        val authService = AuthService()
+        authService.setSignUpView(this)
 
-        })
-        Log.d("SIGNUP", "HELLO")
+        authService.signUp(getUser())
+    }
+
+    override fun onSignUpSuccess() {
+        finish()
+    }
+
+    override fun onSignUpFailure(message: String) {
+        binding.signUpEmailErrorTv.visibility = View.VISIBLE
+        binding.signUpEmailErrorTv.text = message
     }
 }
