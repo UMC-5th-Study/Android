@@ -2,6 +2,7 @@ package com.example.flo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySignupBinding
@@ -19,7 +20,6 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.signUpSignUpBtn.setOnClickListener{
             signUp()
-            finish()
         }
     }
 
@@ -70,6 +70,15 @@ class SignUpActivity : AppCompatActivity() {
         authService.signUp(getUser()).enqueue(object: retrofit2.Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 Log.d("SIGNUP/SUCCESS", response.toString())
+                //서버 개발자가 보낸 응답값을 파싱하기 위해서는 response 안에서 body를 가져와야한다!
+                val resp: AuthResponse = response.body()!!
+                when(resp.code){
+                    1000 -> finish()
+                    2016, 2018 -> {
+                        binding.signUpEmailErrorTv.visibility = View.VISIBLE
+                        binding.signUpEmailErrorTv.text = resp.message
+                    }
+                }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
