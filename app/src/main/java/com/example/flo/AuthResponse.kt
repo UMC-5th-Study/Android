@@ -1,8 +1,15 @@
 package com.example.flo
 
+import com.google.gson.annotations.SerializedName
+
 data class AuthResponse(
-    val isSuccess: Boolean,
-    val code: Int,
-    val message: String
+    @SerializedName(value="isSuccess") val isSuccess: Boolean,
+    @SerializedName(value="code") val code: Int,
+    @SerializedName(value="message") val message: String,
+    @SerializedName(value="result") val result: Result?
 )
 
+data class Result(
+    @SerializedName(value="userIdx") var userIdx: Int,
+    @SerializedName(value="jwt") var jwt: String
+)

@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
 
         Log.d("Song",song.title+song.singer)
+        Log.d("MAIN/JWT_TO_SERVER", getJwt().toString())
     }
 
     private fun initBottomNavigation(){
@@ -77,6 +78,11 @@ class MainActivity : AppCompatActivity() {
         binding.mainMiniplayerTitleTv.text = song.title
         binding.mainMiniplayerSingerTv.text = song.singer
         binding.mainPlayProgressSb.progress = (song.second*100000)/song.playTime
+    }
+
+    private fun getJwt(): String? {
+        val spf = this.getSharedPreferences("auth2", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("jwt", "")
     }
 
     override fun onStart() {
